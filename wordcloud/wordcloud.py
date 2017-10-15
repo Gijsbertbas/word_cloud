@@ -269,7 +269,7 @@ class WordCloud(object):
                  stopwords=None, random_state=None, background_color='black',
                  max_font_size=None, font_step=1, mode="RGB",
                  relative_scaling=.5, regexp=None, collocations=True,
-                 colormap=None, normalize_plurals=True):
+                 colormap=None, normalize_plurals=True, alpha=255):
         if font_path is None:
             font_path = FONT_PATH
         if color_func is None and colormap is None:
@@ -286,6 +286,7 @@ class WordCloud(object):
         self.width = width
         self.height = height
         self.margin = margin
+        self.alpha = alpha
         self.prefer_horizontal = prefer_horizontal
         self.mask = mask
         self.scale = scale
@@ -578,6 +579,7 @@ class WordCloud(object):
         img = Image.new(self.mode, (int(width * self.scale),
                                     int(height * self.scale)),
                         self.background_color)
+        img.putalpha(self.alpha)
         draw = ImageDraw.Draw(img)
         for (word, count), font_size, position, orientation, color in self.layout_:
             font = ImageFont.truetype(self.font_path,
